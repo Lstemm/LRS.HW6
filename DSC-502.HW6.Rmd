@@ -1,0 +1,56 @@
+---
+title: "DSC-502.HW6"
+author: "Luke Stemmerich"
+date: "2026-03-30"
+output: html_document
+---
+
+## Question 2
+
+```{r Q2}
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+load("C:\\Users\\praxi\\OneDrive\\Desktop\\DSC-502\\DATA\\house_prices.rda")
+```
+
+## Part a
+
+```{r Q2a}
+index_plot <- ggplot(data = house_prices) +
+  geom_line(aes(x = date, y = house_price_index)) +
+  facet_wrap(~ state) +
+  scale_x_date(
+    breaks = as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")),
+    date_labels = "%y"
+  )
+
+
+
+index_plot
+```
+
+## Part b
+
+```{r Q2b}
+house_reshaped <- gather(house_prices, key = house_price_index, value = unemploy_perc, -state, -house_price_perc, -date)
+head(house_reshaped)
+```
+
+## Part c
+
+```{r Q2c}
+index_plot2 <- ggplot(data = house_reshaped) +
+  geom_line(aes(x = date, y = unemploy_perc, color = house_price_index)) +
+  facet_wrap(~ state) +
+  scale_x_date(
+    breaks = as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")),
+    date_labels = "%y"
+  )
+
+
+
+index_plot2
+```
+
+This does not seem to be a good graph to present these two variables because the house_price_index variable is always drastically greater then the unemploy_perc variable. In addition, because the individual calls are so small, we cannot properly see the variations in the unemploy_perc variable across the different states.
